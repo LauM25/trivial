@@ -1,0 +1,71 @@
+.main-game{
+    height: 85vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.contenedor-pregunta{
+    background-color: grey;
+    width: 100%;
+}
+//ROJO-> #fa5f34  AZUL->#4f4e8b  AMARILLO->#fdbf24
+.div-1{
+    font-family: "Montserrat", sans-serif; 
+    background-color: fa5f34;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 2px;
+    margin:20px
+    /*border: 2px solid #fa5f34;
+    border-radius: 20px;*/
+}
+
+.div-2{
+    margin-bottom: 2px;
+    padding: 20px;
+    color: black;
+    min-height: 200px;
+    background-color: white;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+.div-3{
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+}
+.txt-answer{
+    text-align:left;
+    color: black;
+    padding: 20px;
+    background: white;
+}
+.div-4{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.div-7{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.txt-b{
+    border-bottom-left-radius: 20px;
+}
+.txt-d{
+    border-bottom-right-radius: 20px;
+}
+
+@media (min-width: 768px){
+    .div-2{
+        min-height: 500px;
+        min-width: 600px;
+    }
+    .div-4{
+        width: 100%;
+    }
+    .div-7{
+        width: 100%;
+    }
+}
