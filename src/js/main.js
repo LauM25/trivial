@@ -30,10 +30,10 @@ if (contenedorPregunta) {
         let temporizadorHTML = contenedor.querySelector(".temporizador");
         if (!temporizadorHTML) {
             temporizadorHTML = document.createElement("p");
-            temporizadorHTML.classList.add("temporizador");
+            temporizadorHTML.classList.add("temporizador", "texto");
             contenedor.appendChild(temporizadorHTML);
         }
-        temporizadorHTML.textContent = `Tiempo restante: ${tiempo}s`;
+        temporizadorHTML.textContent = `Time remaining: ${tiempo}s`;
     }
 
     // 4. Parar el temporizador para no seguir restando segundos
@@ -65,14 +65,14 @@ if (contenedorPregunta) {
         );
 
         contenedor.innerHTML = `
-      <h2>${preguntaObj.question}</h2>
-      <ul>
+      <h2 class="texto">${preguntaObj.question}</h2>
+      <ul class="texto">
         ${opciones
-                .map((opcion) => `<li><button class="opcion">${opcion}</button></li>`)
+                .map((opcion) => `<li><button class="opcion texto">${opcion}</button></li>`)
                 .join("")}
       </ul>
-      <button class="btn-siguiente" style="display:none;">Siguiente pregunta</button>
-      <p class="puntuacion">Puntuación: ${puntuacion} / ${totalPreguntas}</p>
+      <button class="btn-siguiente texto" style="display:none;">Next question</button>
+      <p class="puntuacion texto">Score: ${puntuacion} / ${totalPreguntas}</p>
     `;
 
         const botonesOpciones = contenedor.querySelectorAll(".opcion");
@@ -89,9 +89,9 @@ if (contenedorPregunta) {
             if (respondida) return;
             respondida = true;
             bloquearOpciones();
-            alert(`⏰ Tiempo agotado! La respuesta correcta era: ${preguntaObj.correct_answer}`);
+            alert(`⏰ Time's up! The correct answer was: ${preguntaObj.correct_answer}`);
             preguntasContestadas++;
-            textoPuntuacion.textContent = `Puntuación: ${puntuacion} / ${totalPreguntas}`;
+            textoPuntuacion.textContent = `Score: ${puntuacion} / ${totalPreguntas}`;
             btnSiguiente.style.display = "inline-block";
         }
 
@@ -106,21 +106,21 @@ if (contenedorPregunta) {
 
                 if (boton.textContent === preguntaObj.correct_answer) {
                     puntuacion++;
-                    alert("✅ ¡Correcto!");
+                    alert("✅ Correct!");
                 } else {
-                    alert(`❌ Incorrecto. La respuesta correcta era: ${preguntaObj.correct_answer}`);
+                    alert(`❌ Incorrect. The correct answer was: ${preguntaObj.correct_answer}`);
                 }
 
                 preguntasContestadas++;
-                textoPuntuacion.textContent = `Puntuación: ${puntuacion} / ${totalPreguntas}`;
+                textoPuntuacion.textContent = `Score: ${puntuacion} / ${totalPreguntas}`;
 
                 if (preguntasContestadas < totalPreguntas) {
                     btnSiguiente.style.display = "inline-block";
                 } else {
                     contenedor.innerHTML = `
-            <h2>Juego terminado</h2>
-            <p>Tu puntuación final es ${puntuacion} de ${totalPreguntas}.</p>
-            <button class="btn-reiniciar">Volver a jugar</button>
+            <h2 class="texto">Game over</h2>
+            <p class="texto">Your final score is ${puntuacion} out of ${totalPreguntas}.</p>
+            <button class="btn-reiniciar texto">Replay</button>
           `;
 
                     contenedor.querySelector(".btn-reiniciar").addEventListener("click", () => {
