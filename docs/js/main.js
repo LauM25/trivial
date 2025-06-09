@@ -1,2 +1,13 @@
-console.log(">> Ready :)");
+const x=document.querySelector(".contenedor-pregunta"),c=5,T=60;let a=0,l=0,w,u;const b=document.getElementById("form-configuracion"),C=document.getElementById("select-categoria"),E=document.getElementById("select-dificultad");b&&C&&E&&b.addEventListener("submit",p=>{p.preventDefault();const f=C.value,s=E.value,r={categoria:f,dificultad:s};localStorage.setItem("configuracionTrivial",JSON.stringify(r)),window.location.href="./game.html"});if(x){let f=function(e,t){return[...t,e].sort(()=>Math.random()-.5)},s=function(e,t){let i=t.querySelector(".temporizador");i||(i=document.createElement("p"),i.classList.add("temporizador","texto"),t.appendChild(i)),i.textContent=`Time remaining: ${e}s`},r=function(){clearInterval(w)},y=function(e,t){u=T,s(u,e),w=setInterval(()=>{u--,s(u,e),u<=0&&(r(),t())},1e3)},h=function(e,t){const i=f(e.correct_answer,e.incorrect_answers);t.innerHTML=`
+      <h2 class="texto">${e.question}</h2>
+      <div class="opciones-grid">
+        ${i.map(n=>`<button class="opcion texto">${n}</button>`).join("")}
+      </div>
+      <button class="btn-siguiente texto" style="display:none;">Next question</button>
+      <p class="puntuacion texto">Score: ${a} / ${c}</p>
+    `;const m=t.querySelectorAll(".opcion"),o=t.querySelector(".btn-siguiente"),v=t.querySelector(".puntuacion");let d=!1;function S(){m.forEach(n=>n.disabled=!0)}function $(){o.style.display="none",t.innerHTML=`
+        <h2 class="texto">Game over</h2>
+        <p class="texto">Your final score is ${a} out of ${c}.</p>
+        <button class="btn-reiniciar texto">Replay</button>
+      `,t.querySelector(".btn-reiniciar").addEventListener("click",()=>{a=0,l=0,g(t)})}function q(){d||(d=!0,S(),alert(`⏰ Time's up! The correct answer was: ${e.correct_answer}`),l++,v.textContent=`Score: ${a} / ${c}`,l<c?o.style.display="inline-block":$())}y(t,q),m.forEach(n=>{n.addEventListener("click",()=>{d||(d=!0,r(),S(),n.textContent===e.correct_answer?(a++,n.style.backgroundColor="#51cf66",n.style.color="white"):(n.style.backgroundColor="#e03131",n.style.color="white"),l++,v.textContent=`Score: ${a} / ${c}`,l<c?o.style.display="inline-block":$())})}),o.addEventListener("click",()=>{o.style.display="none",g(t)})};var L=f,k=s,I=r,P=y,z=h;async function p(){const e=localStorage.getItem("configuracionTrivial");let t="https://opentdb.com/api.php?amount=1&type=multiple";if(e){const o=JSON.parse(e);o.categoria&&(t+=`&category=${o.categoria}`),o.dificultad&&(t+=`&difficulty=${o.dificultad}`)}return(await(await fetch(t)).json()).results[0]}async function g(e){const t=await p();h(t,e)}g(x)}
 //# sourceMappingURL=main.js.map

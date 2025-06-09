@@ -1,69 +1,77 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Adalab Web Starter Kit</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
+    <title>Trivial</title>
+    <script
+      src="https://kit.fontawesome.com/50876f28ea.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Roboto+Slab:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Space+Mono&display=swap"
+      rel="stylesheet"
+    />
     
-    <link rel="icon" href="./images/favicon.png" />
-    <link rel="stylesheet" href="./assets/main-62015576.css">
-  </head>
+  <link rel="stylesheet" href="./assets/main-45eedb76.css">
+</head>
 
-  <body>
+<body>
     <div class="page">
-      <header class="page__header">
-  <img src="./images/logo-adalab.png" alt="Adalab">
-  <h1>Bienvenidos a Adalab</h1>
-</header>
+        <!-- <main class="main">
+        <div class="container-img-trivial">
+            <img class="img-trivial" src="../images/Trivial.png" alt="">
+        </div>
+        <div>
+            <a class="btn-comenzar button" href="./game.html">START</a>
+        </div>
+        
+</main> -->
 
-      <main class="page__main">
-  <h2>Este es el starter kit de Adalab</h2>
-  <p>Lo usamos para aprender:</p>
-  <ul class="main__list">
-    <li>Sass</li>
-    <li>HTML partials</li>
-    <li>Gulp</li>
-    <li>y muchas cosas más</li>
-  </ul>
-  <p>Si quieres saber cúales son las rutas correctas para:</p>
-  <ul class="main__list">
-    <li>
-      una <code class="code">&lt;img /&gt;</code> mira el fichero
-      <code class="code">./src/html/partials/header.html</code>.
-    </li>
-    <li>
-      y para un <code class="code">background-image</code> mira el fichero
-      <code class="code">./src/html/scss/layout/_page.scss</code>.
-    </li>
-  </ul>
-  <p>
-    Si quieres saber cómo usar un partial HTML dentro de otro partial, busca en la carperta
-    <code class="code">./src/html/index.html</code> y
-    <code class="code">./src/html/partials/main.html</code>, y verás cómo estamos creando estos
-    enlaces:
-  </p>
-  <ul class="main__list">
-    <li>
-      <a class="link__adalab" href="https://adalab.es">Adalab</a>
+<main class="main">
+  <div class="container-img-trivial">
+    <img class="img-trivial" src="../images/Trivial.png" alt="Trivial Logo" />
+  </div>
 
-    </li>
-    <li>
-      <a class="{=$aClass}" href="./more-info.html">Más info del starter kit</a>
+  <form class="form-configuracion" id="form-configuracion">
+    <label for="select-categoria" class="label-config">
+      Category:
+      <select id="select-categoria" class="select-config">
+        <option value="">Any</option>
+        <option value="9">General Knowledge</option>
+        <option value="18">Science: Computers</option>
+        <option value="23">History</option>
+        <option value="21">Sports</option>
+      </select>
+    </label>
 
-    </li>
-  </ul>
+    <label for="select-dificultad" class="label-config">
+      Difficulty:
+      <select id="select-dificultad" class="select-config">
+        <option value="">Any</option>
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+    </label>
+
+    <button type="submit" class="btn-comenzar button">START</button>
+  </form>
 </main>
 
-      <footer class="page__footer">
-  <small>
-    &copy; Todos los derechos reservados
-    <a class="link__adalab" href="https://adalab.es">Adalab</a>
 
-  </small>
+
+        <footer class="footer">
+        <p class="text-footer">Created by: Laura Montiel Frontend  Developer | UX/UI Designer</p>
+        <a class="linkedin" href="https://www.linkedin.com/in/lauramontielm/">
+            <i class="fa-brands fa-linkedin linkedin-icon"></i>
+        </a>
 </footer>
-
     </div>
-    <script src="./js/main.js"></script>
-  </body>
+    <script type="text/javascript" src="./js/main.js"></script>
+</body>
+
 </html>
