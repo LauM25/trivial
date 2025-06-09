@@ -1,4 +1,4 @@
-<main class="main">
+<!-- <main class="main">
         <div class="container-img-trivial">
             <img class="img-trivial" src="../images/Trivial.png" alt="">
         </div>
@@ -6,4 +6,37 @@
             <a class="btn-comenzar button" href="./game.html">START</a>
         </div>
         
+</main> -->
+
+<main class="main">
+  <div class="container-img-trivial">
+    <img class="img-trivial" src="../images/Trivial.png" alt="Trivial Logo" />
+  </div>
+
+  <form class="form-configuracion" id="form-configuracion">
+    <label for="select-categoria" class="label-config">
+      Category:
+      <select id="select-categoria" class="select-config">
+        <option value="">Any</option>
+        <option value="9">General Knowledge</option>
+        <option value="18">Science: Computers</option>
+        <option value="23">History</option>
+        <option value="21">Sports</option>
+      </select>
+    </label>
+
+    <label for="select-dificultad" class="label-config">
+      Difficulty:
+      <select id="select-dificultad" class="select-config">
+        <option value="">Any</option>
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+    </label>
+
+    <button type="submit" class="btn-comenzar button">START</button>
+  </form>
 </main>
+
+

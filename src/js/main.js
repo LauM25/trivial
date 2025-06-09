@@ -1,3 +1,7 @@
+
+
+
+
 const contenedorPregunta = document.querySelector(".contenedor-pregunta");
 const totalPreguntas = 5;
 const tiempoPorPregunta = 60;
@@ -7,9 +11,41 @@ let preguntasContestadas = 0;
 let intervaloTemporizador;
 let tiempoRestante;
 
+// Lógica para la pantalla de inicio (landing)
+const formConfiguracion = document.getElementById("form-configuracion");
+const selectCategoria = document.getElementById("select-categoria");
+const selectDificultad = document.getElementById("select-dificultad");
+
+if (formConfiguracion && selectCategoria && selectDificultad) {
+    formConfiguracion.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const categoria = selectCategoria.value;
+        const dificultad = selectDificultad.value;
+
+        const configuracion = {
+            categoria,
+            dificultad
+        };
+
+        localStorage.setItem("configuracionTrivial", JSON.stringify(configuracion));
+
+        window.location.href = "./game.html";
+    });
+}
+
+// Juego en game.html
 if (contenedorPregunta) {
     async function obtenerPreguntaAleatoria() {
-        const url = "https://opentdb.com/api.php?amount=1&type=multiple";
+        const configStr = localStorage.getItem("configuracionTrivial");
+        let url = "https://opentdb.com/api.php?amount=1&type=multiple";
+
+        if (configStr) {
+            const config = JSON.parse(configStr);
+            if (config.categoria) url += `&category=${config.categoria}`;
+            if (config.dificultad) url += `&difficulty=${config.dificultad}`;
+        }
+
         const respuesta = await fetch(url);
         const datos = await respuesta.json();
         return datos.results[0];
@@ -56,15 +92,15 @@ if (contenedorPregunta) {
         );
 
         contenedor.innerHTML = `
-            <h2 class="texto">${preguntaObj.question}</h2>
-            <div class="opciones-grid">
-                ${opciones
+      <h2 class="texto">${preguntaObj.question}</h2>
+      <div class="opciones-grid">
+        ${opciones
                 .map((opcion) => `<button class="opcion texto">${opcion}</button>`)
                 .join("")}
-            </div>
-            <button class="btn-siguiente texto" style="display:none;">Next question</button>
-            <p class="puntuacion texto">Score: ${puntuacion} / ${totalPreguntas}</p>
-        `;
+      </div>
+      <button class="btn-siguiente texto" style="display:none;">Next question</button>
+      <p class="puntuacion texto">Score: ${puntuacion} / ${totalPreguntas}</p>
+    `;
 
         const botonesOpciones = contenedor.querySelectorAll(".opcion");
         const btnSiguiente = contenedor.querySelector(".btn-siguiente");
@@ -79,10 +115,10 @@ if (contenedorPregunta) {
         function mostrarFinal() {
             btnSiguiente.style.display = "none";
             contenedor.innerHTML = `
-                <h2 class="texto">Game over</h2>
-                <p class="texto">Your final score is ${puntuacion} out of ${totalPreguntas}.</p>
-                <button class="btn-reiniciar texto">Replay</button>
-            `;
+        <h2 class="texto">Game over</h2>
+        <p class="texto">Your final score is ${puntuacion} out of ${totalPreguntas}.</p>
+        <button class="btn-reiniciar texto">Replay</button>
+      `;
 
             contenedor.querySelector(".btn-reiniciar").addEventListener("click", () => {
                 puntuacion = 0;
@@ -147,6 +183,7 @@ if (contenedorPregunta) {
 
     iniciarJuego(contenedorPregunta);
 }
+
 
 
 
