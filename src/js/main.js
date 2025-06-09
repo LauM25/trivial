@@ -1,17 +1,13 @@
-// --- VARIABLES GLOBALES Y CONSTANTES ---
 const contenedorPregunta = document.querySelector(".contenedor-pregunta");
-const totalPreguntas = 5;          // Número total de preguntas por partida
-const tiempoPorPregunta = 60;      // Tiempo en segundos por pregunta
+const totalPreguntas = 5;
+const tiempoPorPregunta = 60;
 
-// Variables que cambian durante la ejecución
 let puntuacion = 0;
 let preguntasContestadas = 0;
-let intervaloTemporizador;         // ID del setInterval para temporizador
-let tiempoRestante;                // Segundos restantes para la pregunta
+let intervaloTemporizador;
+let tiempoRestante;
 
-// --- INICIO DEL JUEGO SOLO SI ESTAMOS EN LA PANTALLA DE JUEGO ---
 if (contenedorPregunta) {
-    // 1. Función para obtener una pregunta aleatoria desde la API pública de OpenTDB
     async function obtenerPreguntaAleatoria() {
         const url = "https://opentdb.com/api.php?amount=1&type=multiple";
         const respuesta = await fetch(url);
@@ -19,13 +15,11 @@ if (contenedorPregunta) {
         return datos.results[0];
     }
 
-    // 2. Mezclar aleatoriamente las respuestas correcta e incorrectas para mostrarlas sin orden
     function mezclarOpciones(correcta, incorrectas) {
         const opciones = [...incorrectas, correcta];
         return opciones.sort(() => Math.random() - 0.5);
     }
 
-    // 3. Mostrar el temporizador en el contenedor y actualizarlo cada segundo
     function mostrarTemporizador(tiempo, contenedor) {
         let temporizadorHTML = contenedor.querySelector(".temporizador");
         if (!temporizadorHTML) {
@@ -36,12 +30,10 @@ if (contenedorPregunta) {
         temporizadorHTML.textContent = `Time remaining: ${tiempo}s`;
     }
 
-    // 4. Parar el temporizador para no seguir restando segundos
     function detenerTemporizador() {
         clearInterval(intervaloTemporizador);
     }
 
-    // 5. Iniciar el temporizador con cuenta regresiva y callback cuando el tiempo se acabe
     function iniciarTemporizador(contenedor, onTiempoAgotado) {
         tiempoRestante = tiempoPorPregunta;
         mostrarTemporizador(tiempoRestante, contenedor);
@@ -57,7 +49,6 @@ if (contenedorPregunta) {
         }, 1000);
     }
 
-    // 6. Función para mostrar pregunta, opciones, gestionar respuestas y controles
     function mostrarPregunta(preguntaObj, contenedor) {
         const opciones = mezclarOpciones(
             preguntaObj.correct_answer,
@@ -65,15 +56,15 @@ if (contenedorPregunta) {
         );
 
         contenedor.innerHTML = `
-      <h2 class="texto">${preguntaObj.question}</h2>
-      <ul class="texto">
-        ${opciones
-                .map((opcion) => `<li><button class="opcion texto">${opcion}</button></li>`)
+            <h2 class="texto">${preguntaObj.question}</h2>
+            <div class="opciones-grid">
+                ${opciones
+                .map((opcion) => `<button class="opcion texto">${opcion}</button>`)
                 .join("")}
-      </ul>
-      <button class="btn-siguiente texto" style="display:none;">Next question</button>
-      <p class="puntuacion texto">Score: ${puntuacion} / ${totalPreguntas}</p>
-    `;
+            </div>
+            <button class="btn-siguiente texto" style="display:none;">Next question</button>
+            <p class="puntuacion texto">Score: ${puntuacion} / ${totalPreguntas}</p>
+        `;
 
         const botonesOpciones = contenedor.querySelectorAll(".opcion");
         const btnSiguiente = contenedor.querySelector(".btn-siguiente");
@@ -85,6 +76,21 @@ if (contenedorPregunta) {
             botonesOpciones.forEach((b) => (b.disabled = true));
         }
 
+        function mostrarFinal() {
+            btnSiguiente.style.display = "none";
+            contenedor.innerHTML = `
+                <h2 class="texto">Game over</h2>
+                <p class="texto">Your final score is ${puntuacion} out of ${totalPreguntas}.</p>
+                <button class="btn-reiniciar texto">Replay</button>
+            `;
+
+            contenedor.querySelector(".btn-reiniciar").addEventListener("click", () => {
+                puntuacion = 0;
+                preguntasContestadas = 0;
+                iniciarJuego(contenedor);
+            });
+        }
+
         function tiempoAgotado() {
             if (respondida) return;
             respondida = true;
@@ -92,7 +98,11 @@ if (contenedorPregunta) {
             alert(`⏰ Time's up! The correct answer was: ${preguntaObj.correct_answer}`);
             preguntasContestadas++;
             textoPuntuacion.textContent = `Score: ${puntuacion} / ${totalPreguntas}`;
-            btnSiguiente.style.display = "inline-block";
+            if (preguntasContestadas < totalPreguntas) {
+                btnSiguiente.style.display = "inline-block";
+            } else {
+                mostrarFinal();
+            }
         }
 
         iniciarTemporizador(contenedor, tiempoAgotado);
@@ -106,9 +116,11 @@ if (contenedorPregunta) {
 
                 if (boton.textContent === preguntaObj.correct_answer) {
                     puntuacion++;
-                    alert("✅ Correct!");
+                    boton.style.backgroundColor = "#51cf66"; // Verde ✅
+                    boton.style.color = "white";
                 } else {
-                    alert(`❌ Incorrect. The correct answer was: ${preguntaObj.correct_answer}`);
+                    boton.style.backgroundColor = "#e03131"; // Rojo ❌
+                    boton.style.color = "white";
                 }
 
                 preguntasContestadas++;
@@ -117,17 +129,7 @@ if (contenedorPregunta) {
                 if (preguntasContestadas < totalPreguntas) {
                     btnSiguiente.style.display = "inline-block";
                 } else {
-                    contenedor.innerHTML = `
-            <h2 class="texto">Game over</h2>
-            <p class="texto">Your final score is ${puntuacion} out of ${totalPreguntas}.</p>
-            <button class="btn-reiniciar texto">Replay</button>
-          `;
-
-                    contenedor.querySelector(".btn-reiniciar").addEventListener("click", () => {
-                        puntuacion = 0;
-                        preguntasContestadas = 0;
-                        iniciarJuego(contenedor);
-                    });
+                    mostrarFinal();
                 }
             });
         });
@@ -138,13 +140,16 @@ if (contenedorPregunta) {
         });
     }
 
-    // 7. Función principal que inicia el juego pidiendo una pregunta y mostrándola
     async function iniciarJuego(contenedor) {
         const pregunta = await obtenerPreguntaAleatoria();
         mostrarPregunta(pregunta, contenedor);
     }
 
-    // Empezamos el juego
     iniciarJuego(contenedorPregunta);
 }
+
+
+
+
+
 
