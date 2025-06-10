@@ -373,6 +373,7 @@ if (contenedorPregunta) {
         function mostrarFinal() {
             btnSiguiente.style.display = "none";
             contenedor.innerHTML = `
+                <a href="./index.html"><i class="fa-solid fa-circle-chevron-left button-back"></i></a>
                 <h2 class="texto">Game over</h2>
                 <p class="texto">Your final score is ${puntuacion} out of ${totalPreguntas}.</p>
                 <button class="btn-reiniciar texto">Replay</button>
